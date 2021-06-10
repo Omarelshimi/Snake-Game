@@ -1,0 +1,15 @@
+h1 {
+    font-weight: 500;
+    font-size: 1.4cm;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    color: green;
+}
+
+canvas {
+    border: 2px gray;
+}
+
+body {
+    background-color: lightsalmon;
+}
