@@ -12,15 +12,6 @@ snake = [
         {x: 625, y:500},
 ];
 
-requestAnimationFrame(draw);
-function draw() {
-    // Clear Canvas 
-    for (let i = 0; i < snake.length; i++) {
-
-    }
-    requestAnimationFrame(draw);
-}
-
 function drawSnakePart(aSnake) {
     fill("green");
     circle(aSnake.x, aSnake.y, 10, "fill");
@@ -29,7 +20,4 @@ function drawSnake() {
     snake.forEach(drawSnakePart);
 }
 
-function moveSnake(aSnake) {
-    aSnake.x += 2;
-}
 
