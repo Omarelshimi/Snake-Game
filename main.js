@@ -31,7 +31,7 @@ function drawSnakePart(aSnake) {
     circle(aSnake.x, aSnake.y, 10, "fill");
 }
 function drawSnake() {
-    for (let i = 0; i < snake.length; snake++) {
+    for (let i = 0; i < snake.length; i++) {
         drawSnakePart(snake[i]);
     }
 }
