@@ -26,24 +26,41 @@ function drawSnakePart(aSnake) {
 
 let framecount = 0;
 
+right = true;
+left = false;
+up = false;
+down = false;
+
 function moveSnake() {
-    if (framecount % 60 === 0) {
-        snake.splice(snake.length - 1, 1)
-        snake.unshift(snakeObject());
-        snake[0].x = snake[1].x + speed;
+    if (right) {
+        if (framecount % 60 === 0) {
+            snake.splice(snake.length - 1, 1)
+            snake.unshift(snakeObject());
+            snake[0].x = snake[1].x + speed;
+        }
     }
+
 }
+
+document.addEventListener("keydown", changeDirection);
 
 function changeDirection(event) {
     const key = event.keyCode;
 
-    if (key === 38) {
-        snake[0].y += speed;
-        snake.splice(snake.length - 1, 1)
-        snake.unshift(snakeObject());
+    if (key === 13) {
+        level = "gameon";
+    }
+
+    if (framecount % 60 === 0) {
+        if (key === 38) {
+            snake.splice(snake.length - 1, 1)
+            snake.unshift(snakeObject());
+            snake[0].y = snake[1].y + speed;
+            right = false;
+        }
     }
 }
-changeDirection();
+
 
 function drawSnake() {
     for (let i = 0; i < snake.length; i++) {
@@ -55,29 +72,30 @@ function drawSnake() {
 
 let level = "home"
 
-function page() {
+requestAnimationFrame(draw);
+
+function draw() {
     if (level === "home") {
-        background("green");
-        fill("white")
-        text("Press ENTER to Start", 300, 300, "fill");
+        page();
     } else if (level === "gameon") {
-        
+        gameon();
     }
-
-
+    
     requestAnimationFrame(draw);
-
-    function draw() {
-        moveSnake();
-
-        background("lightsalmon");
-        for (let i = 0; i < snake.length; i++) {
-            drawSnake();
-        }
-
-        requestAnimationFrame(draw);
-    }
 }
-page();
 
+function page() {
+    background("green");
+    fill("white")
+    text("Press ENTER to Start", 250, 250, "fill");
+}
 
+function gameon() {
+    moveSnake();
+
+    background("lightsalmon");
+    for (let i = 0; i < snake.length; i++) {
+        drawSnake();
+    }
+
+}
