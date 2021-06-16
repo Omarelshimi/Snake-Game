@@ -8,9 +8,8 @@ let framecount = 0;
 let dir = "right"
 
 let snake = [];
-for (let x = 250; x < 200; x - 10) {
-    snake.push(snakeObject());
-    snake[i].x -= i * 5;
+for (let x = 250; x >= 200; x = x - 10) {
+    snake.push(snakeObject(x, 200));
 }
 
 function snakeObject(initX, initY) {
@@ -20,27 +19,35 @@ function snakeObject(initX, initY) {
     };
 }
 
-
 function drawSnakePart(aSnake) {
     fill("green");
     circle(aSnake.x, aSnake.y, 10, "fill");
 }
 
-
-function moveSnake() {
-        if (framecount % 60 === 0) {                                                                                                                                                                                       
+function moveSnake(event) {
+    if (framecount % 3 === 0) {
+        if (dir === "right") {
             snake.splice(snake.length - 1, 1)
-            snake.unshift(snakeObject());
-            snake[0].x = snake[1].x + speed;
+            snake.unshift(snakeObject(snake[0].x + 10, snake[0].y));
+        } else if (dir === "left") {
+            nake.splice(snake.length - 1, 1)
+            snake.unshift(snakeObject(snake[0].x - 10, snake[0].y));
+        } else if (event.keyCode === 38) {
+            nake.splice(snake.length - 1, 1)
+            snake.unshift(snakeObject(snake[0].x, snake[0].y - 10));
+        } else if (dir === "down") {
+            nake.splice(snake.length - 1, 1)
+            snake.unshift(snakeObject(snake[0].x, snake[0].y + 10));
         }
+
     }
+}
 
 function drawSnake() {
     for (let i = 0; i < snake.length; i++) {
         drawSnakePart(snake[i]);
     }
 }
-
 
 document.addEventListener("keydown", changeDirection);
 
@@ -52,11 +59,11 @@ function changeDirection(event) {
     }
 
     if (framecount % 60 === 0) {
-        if (key === 38) {
+        if (key === upKey) {
+            console.log(changeDirection);
             snake.splice(snake.length - 1, 1)
             snake.unshift(snakeObject());
             snake[0].y = snake[1].y + speed;
-            right = false;
         }
     }
 }
@@ -66,12 +73,13 @@ let level = "home"
 requestAnimationFrame(draw);
 
 function draw() {
+    framecount++;
     if (level === "home") {
         page();
     } else if (level === "gameon") {
         gameon();
     }
-    
+
     requestAnimationFrame(draw);
 }
 
@@ -79,6 +87,7 @@ function page() {
     background("lightsalmon");
     fill("white")
     text("Press ENTER to Start", 195, 250, "fill");
+    text("Use Arrow Keys to Move", 180, 280, "fill");
     font("25px Comic Sans")
 }
 
