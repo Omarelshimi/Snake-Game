@@ -3,18 +3,20 @@
 // Initialize canvas and graphics context
 initGraphics("my-canvas", 600, 600);
 
-snake = [];
-const speed = 5;
+let speed = 5;
+let framecount = 0;
+let dir = "right"
 
-for (let i = 0; i < 8; i++) {
+let snake = [];
+for (let x = 250; x < 200; x - 10) {
     snake.push(snakeObject());
     snake[i].x -= i * 5;
 }
 
-function snakeObject() {
+function snakeObject(initX, initY) {
     return {
-        x: 250,
-        y: 200
+        x: initX,
+        y: initY
     };
 }
 
@@ -24,23 +26,21 @@ function drawSnakePart(aSnake) {
     circle(aSnake.x, aSnake.y, 10, "fill");
 }
 
-let framecount = 0;
-
-right = true;
-left = false;
-up = false;
-down = false;
 
 function moveSnake() {
-    if (right) {
-        if (framecount % 60 === 0) {
+        if (framecount % 60 === 0) {                                                                                                                                                                                       
             snake.splice(snake.length - 1, 1)
             snake.unshift(snakeObject());
             snake[0].x = snake[1].x + speed;
         }
     }
 
+function drawSnake() {
+    for (let i = 0; i < snake.length; i++) {
+        drawSnakePart(snake[i]);
+    }
 }
+
 
 document.addEventListener("keydown", changeDirection);
 
@@ -61,15 +61,6 @@ function changeDirection(event) {
     }
 }
 
-
-function drawSnake() {
-    for (let i = 0; i < snake.length; i++) {
-        drawSnakePart(snake[i]);
-    }
-}
-
-
-
 let level = "home"
 
 requestAnimationFrame(draw);
@@ -85,9 +76,10 @@ function draw() {
 }
 
 function page() {
-    background("green");
+    background("lightsalmon");
     fill("white")
-    text("Press ENTER to Start", 250, 250, "fill");
+    text("Press ENTER to Start", 195, 250, "fill");
+    font("25px Comic Sans")
 }
 
 function gameon() {
