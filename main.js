@@ -7,7 +7,11 @@ let speed = 5;
 let framecount = 0;
 let dir = "right"
 
+// Initialize Snake Array
 let snake = [];
+
+
+// Snake Stuff
 for (let x = 250; x >= 200; x = x - 10) {
     snake.push(snakeObject(x, 200));
 }
@@ -30,16 +34,15 @@ function moveSnake(event) {
             snake.splice(snake.length - 1, 1)
             snake.unshift(snakeObject(snake[0].x + 10, snake[0].y));
         } else if (dir === "left") {
-            nake.splice(snake.length - 1, 1)
+            snake.splice(snake.length - 1, 1)
             snake.unshift(snakeObject(snake[0].x - 10, snake[0].y));
-        } else if (event.keyCode === 38) {
-            nake.splice(snake.length - 1, 1)
+        } else if (dir === "up") {
+            snake.splice(snake.length - 1, 1)
             snake.unshift(snakeObject(snake[0].x, snake[0].y - 10));
         } else if (dir === "down") {
-            nake.splice(snake.length - 1, 1)
+            snake.splice(snake.length - 1, 1)
             snake.unshift(snakeObject(snake[0].x, snake[0].y + 10));
         }
-
     }
 }
 
@@ -56,18 +59,20 @@ function changeDirection(event) {
 
     if (key === 13) {
         level = "gameon";
-    }
-
-    if (framecount % 60 === 0) {
-        if (key === upKey) {
-            console.log(changeDirection);
-            snake.splice(snake.length - 1, 1)
-            snake.unshift(snakeObject());
-            snake[0].y = snake[1].y + speed;
-        }
+    } else if (key === 37 && dir !== "right") {
+        dir = "left";
+    } else if (key === 39 && dir !== "left") {
+        dir = "right";
+    } else if (key === 38 && dir !== "down") {
+        dir = "up";
+    } else if (key === 40 && dir !== "up") {
+        dir = "down";
+    } else if (key === 82) {
+        level = "gameon";
     }
 }
 
+// Draw Stuff
 let level = "home"
 
 requestAnimationFrame(draw);
@@ -79,6 +84,8 @@ function draw() {
     } else if (level === "gameon") {
         gameon();
     }
+    gameOver();
+    touchingItself();
 
     requestAnimationFrame(draw);
 }
@@ -98,5 +105,23 @@ function gameon() {
     for (let i = 0; i < snake.length; i++) {
         drawSnake();
     }
+}
 
+function gameOver() {
+    if (snake[0].x >= cnv.width || snake[0].x <= 0 || snake[0].y >= cnv.width || snake[0].y <= 0) {
+        background("lightsalmon");
+        fill("red");
+        text("Game Over", 190, 250, "fill");
+        font("30px Comic Sans");
+        text("Press (R) to Restart", 195, 300, "fill");
+        font("50px Comic Sans");
+    }
+}
+
+function touchingItself() {
+    for (let i = 0; i < snake.length; i++) {
+        if (snake[0].x === snake[i].x && snake[0].y === snake[i].y) {
+            gameOver();
+        }
+    }
 }
